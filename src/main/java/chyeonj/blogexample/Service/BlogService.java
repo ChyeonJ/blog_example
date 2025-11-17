@@ -22,9 +22,12 @@ public class BlogService {
         return blogRepository.save(request.toEntity());
     }
 
-    public Article findById(long id){return blogRepository.findById(id).orElse(null);}
+    //orElseThrow(() -> new IllegalArgumentException("not found : " + id) Optional 값이 없다면 예외를 던지는 패턴
+    public Article findById(long id){
+        return blogRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("not found : " + id));
+    }
 
     public List<Article> findAll(){return blogRepository.findAll();}
 
-    public void deleteById (@PathVariable long id){blogRepository.delete(id);}
+    public void delete(@PathVariable long id){blogRepository.deleteById(id);}
 }
