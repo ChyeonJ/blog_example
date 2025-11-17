@@ -7,9 +7,9 @@ import chyeonj.blogexample.blogexam.domain.Article;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController // HTTP Response Body에 객체 데이터를 JSON 형식으로 반환하는 컨트롤러
@@ -26,5 +26,16 @@ public class BlogApiController {
         //요청한 자원이 성공적으로 생성 되었으며 저장된 블로그 글 정보를 응답 객체에 담아 전송
         return ResponseEntity.status(HttpStatus.CREATED).body(savedArticle);
     }
+
+    @GetMapping("/{id}")
+    public Article findByIdArticle(@PathVariable long id){
+        return blogService.findById(id);
+    }
+
+    @GetMapping("/all")
+    public List<Article> findAllArticle(){return blogService.findAll();}
+
+    @DeleteMapping("/{id}")
+    public void deleteByIdArticle(@PathVariable long id){blogService.deleteById(id);}
 
 }
