@@ -1,4 +1,4 @@
-package chyeonj.blogexample.blogexam;
+package chyeonj.blogexample.blogexam.domain;
 
 
 import jakarta.persistence.*;
