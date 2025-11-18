@@ -144,4 +144,50 @@ private final BlogRepository blogRepository; // 의존성 주입 DB와 통신 �
 
 ### ![BlogApiController.java](https://github.com/ChyeonJ/blog_example/blob/main/Step.1/BlogApiController.java.png)
 
+주요 특징
 
+@RestController : HTTP Response Body에 데이터를 JSON 형식으로 변환
+
+@RequiredArgsConstructor : final 필드 자동 주입, 위에서 쓰였듯이 @NotNun 비어있으면 안된다도 포함
+
+@ResponseEntity : HTTP 상태 코드, 응답 본문을 반환 .ok, .body, .bulid 사용 때 나옴
+
+#### API 목록
+
+1. 블로그 글 생성
+
+   - @PostMapping 사용 /api/articles 경로 지정
+   - @RequestBody: AddArticleRequest //클라이언트가 요청할 때 본문(Body)에 담긴 json 등 형태의 데이터를 자바 객체로 변환
+   - ResponseEntity: Article 객체 생성
+   - HTTP 상태코드 : 201 Created
+
+2. 단건 조회 (Article Entity의 ID조회)
+    
+   - @GettMapping 사용 /api/articles/{id}
+   - 특정 ID 블로그 글 조회
+   - @PathVarialbe : 링크 내의 {id} long id 담아낸다.
+   - ReponseBody : ArticleResponse DTO 담기
+   - HTTP 상태코드 : 201 Created
+
+3. 전체 조회
+
+   - @GetMapping 사용 /api/articles/all
+   - ResponseEntity : List<ArticlesResponse> DTO 담고 LIST화한다 전체를 가져와야 하기 때문
+   - HTTP 상태코드 : 201 Created
+
+4. 블로그 글 삭제
+
+   - DeleteMapping 사용 /api/articles/{id}
+   - @PathVarialbe : 링크 내의 {id} long id 담는다
+   - ResponseEntity : <Void> .body가 없어 리턴 값을 반환하지 않을 때 사용
+   - HTTP 상태코드 : 200 ok
+
+5. 블로그 글 수정
+
+   - @PutMapping 사용 /api/articles/{id}
+   - @PathVarialbe : 링크 내의 {id} long id 담는다
+   - @RequestBody: AddArticleRequest //클라이언트가 요청할 때 본문(Body)에 담긴 json 등 형태의 데이터를 자바 객체로 변환
+   - ResponseEntity : 수정된 Article 엔티티 반환
+   - HTTP 상태코드 : 200 ok
+
+## 2. 블로그 화면 구성하기 (Thymeleaf)
