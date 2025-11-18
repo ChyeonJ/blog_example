@@ -2,8 +2,10 @@ package chyeonj.blogexample.Service;
 
 
 import chyeonj.blogexample.DTO.AddArticleRequest;
+import chyeonj.blogexample.DTO.UpdateArticleRequest;
 import chyeonj.blogexample.blogexam.domain.Article;
 import chyeonj.blogexample.repository.BlogRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.RequestEntity;
 import org.springframework.stereotype.Service;
@@ -30,4 +32,12 @@ public class BlogService {
     public List<Article> findAll(){return blogRepository.findAll();}
 
     public void delete(@PathVariable long id){blogRepository.deleteById(id);}
+
+    @Transactional
+    public Article update(long id, UpdateArticleRequest request){
+        Article article = blogRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("not found" + id));
+        article.update(request.getTitle(), request.getContent());
+        return article;
+    }
 }

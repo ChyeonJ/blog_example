@@ -3,6 +3,7 @@ package chyeonj.blogexample.controller;
 
 import chyeonj.blogexample.DTO.AddArticleRequest;
 import chyeonj.blogexample.DTO.ArticleResponse;
+import chyeonj.blogexample.DTO.UpdateArticleRequest;
 import chyeonj.blogexample.Service.BlogService;
 import chyeonj.blogexample.blogexam.domain.Article;
 import lombok.RequiredArgsConstructor;
@@ -61,6 +62,14 @@ public class BlogApiController {
         blogService.delete(id);
         return ResponseEntity.ok().build(); //.bulid() Body에 담아서 반환할게 없을 때 사용 <Void>를 선언 했기에
 
+    }
+
+    // 업데이트
+    @PutMapping("/api/articles/{id}")
+    public ResponseEntity<Article> updateArticle(@PathVariable long id, @RequestBody UpdateArticleRequest request){
+        Article updatedArticle = blogService.update(id, request);
+
+        return ResponseEntity.ok().body(updatedArticle);
     }
 
 }
