@@ -115,7 +115,7 @@ BlogRepositoty 인터페이스 생성 DB의 CRUD 해결을 위한 다리
 
 AddArticleRequest랑 다르게 article.getTitle();로 .get 메서드 사용
 
-### ![UpdateArticleRequest.java](https://github.com/ChyeonJ/blog_example/blob/main/src/main/java/chyeonj/blogexample/DTO/UpdateArticleRequest.java)
+### ![UpdateArticleRequest.java](https://github.com/ChyeonJ/blog_example/blob/main/Step.1/UpdateArticleRequest.java.png)
 
 // 수정 (.update()) 블로그 글 수정 요청 데이터를 담는 DTO
 
