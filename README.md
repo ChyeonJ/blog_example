@@ -73,4 +73,45 @@ id가 1인 블로그 글을 조회하는 API : GET /articles/1
 블로그 글을 수정하는 API : PUT /articles/1
 블로그 글을 삭제하는 API : DELETE /articles/1
 
+---------------------------------------------------------------------------
+
+Entity 구성
+
+### [Article.java](https://github.com/ChyeonJ/blog_example/blob/main/src/main/java/chyeonj/blogexample/blogexam/domain/Article.java)
+
+@Getter //클래스의 모든 필드에 대한 Getter 메서드를 자동 생성 
+
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // 기본 생성자를 만들 때 JPA는 사용할 수 있지만 외부 개발자는 생성자를 새롭게 생성하지 못하게 막는 애너테이션
+
+@GeneratedValue(strategy = GenerationType.IDENTITY) //기본키 1씩 증가 Auto_increment
+
+컬럼 : id, title, content
+
+@Builder 빌더 패턴 사용하여 객체 생성
+
+@Bulider 사용 이유 
+1. 가독성 좋음
+2. 필드를 선택적으로 넣기 쉬움
+3. 객체를 불변하게 만들기 좋음
+4. 생성자 오버로딩에 용이함
+
+ex) User user = new User("홍길동", 25, "서울", null, true, "010-1234-5678"); 
+
+- 필드가 많은 객체 생성 시 어떤 값이 어떤 필드인지 구분이 힘듦 홍길동이 name인지? content인지?
+
+### [BlogRepository.java](https://github.com/ChyeonJ/blog_example/blob/main/src/main/java/chyeonj/blogexample/repository/BlogRepository.java)
+
+BlogRepositoty 인터페이스 생성 DB의 CRUD 해결을 위한 다리
+
+### [AddArticleRequest.java](https://github.com/ChyeonJ/blog_example/blob/main/src/main/java/chyeonj/blogexample/DTO/AddArticleRequest.java)
+
+// 저장 (.save)할 때 사용하기 위한 DTO(데이터 전달용 Controller <-> Service)
+
+@AllArgsConstructor //클래스 안에 있는 모든 필드를 한 번에 넣어 객체로 만들 수 있게 해줌
+
+### [BlogService.java](https://github.com/ChyeonJ/blog_example/blob/main/src/main/java/chyeonj/blogexample/Service/BlogService.java)
+
+@RequiredArgsConstructor //final, @NonNull 필드만 받는 필수값만 넣는 생성자 자동 생성 애너테이션
+
+
 
