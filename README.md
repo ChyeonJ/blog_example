@@ -77,7 +77,7 @@ id가 1인 블로그 글을 조회하는 API : GET /articles/1
 
 Entity 구성
 
-### [Article.java](https://github.com/ChyeonJ/blog_example/blob/main/src/main/java/chyeonj/blogexample/blogexam/domain/Article.java)
+### ![Article.java](https://github.com/ChyeonJ/blog_example/blob/main/Step.1/Article.java.png)
 
 @Getter //클래스의 모든 필드에 대한 Getter 메서드를 자동 생성 
 
@@ -99,19 +99,49 @@ ex) User user = new User("홍길동", 25, "서울", null, true, "010-1234-5678")
 
 - 필드가 많은 객체 생성 시 어떤 값이 어떤 필드인지 구분이 힘듦 홍길동이 name인지? content인지?
 
-### [BlogRepository.java](https://github.com/ChyeonJ/blog_example/blob/main/src/main/java/chyeonj/blogexample/repository/BlogRepository.java)
+### ![BlogRepository.java](https://github.com/ChyeonJ/blog_example/blob/main/Step.1/BlogRepository.java.png)
 
 BlogRepositoty 인터페이스 생성 DB의 CRUD 해결을 위한 다리
 
-### [AddArticleRequest.java](https://github.com/ChyeonJ/blog_example/blob/main/src/main/java/chyeonj/blogexample/DTO/AddArticleRequest.java)
+### ![AddArticleRequest.java](https://github.com/ChyeonJ/blog_example/blob/main/Step.1/AddArticleRequest.java.png)
 
 // 저장 (.save)할 때 사용하기 위한 DTO(데이터 전달용 Controller <-> Service)
 
 @AllArgsConstructor //클래스 안에 있는 모든 필드를 한 번에 넣어 객체로 만들 수 있게 해줌
 
-### [BlogService.java](https://github.com/ChyeonJ/blog_example/blob/main/src/main/java/chyeonj/blogexample/Service/BlogService.java)
+### ![ArticleResponse.java](https://github.com/ChyeonJ/blog_example/blob/main/Step.1/ArticleResponse.java.png)
+
+// 조회 (.findAll, .fimdById(),) 클라이언트에게 전달할 블로그 글 데이터를 담는 DTO
+
+AddArticleRequest랑 다르게 article.getTitle();로 .get 메서드 사용
+
+### ![UpdateArticleRequest.java](https://github.com/ChyeonJ/blog_example/blob/main/src/main/java/chyeonj/blogexample/DTO/UpdateArticleRequest.java)
+
+// 수정 (.update()) 블로그 글 수정 요청 데이터를 담는 DTO
+
+// 생성자 자동생성 애너테이션 사용
+
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+
+// 모든 필드를 한 번에 넣을 수 있음 AddArticleRequest에서도 사용
+
+@AllArgsConstructor
+
+### ![BlogService.java](https://github.com/ChyeonJ/blog_example/blob/main/Step.1/BlogService.java.png)
+
+@Service 스프링 빈으로 등록되어 다른 클래스 주입가능
 
 @RequiredArgsConstructor //final, @NonNull 필드만 받는 필수값만 넣는 생성자 자동 생성 애너테이션
 
+private final BlogRepository blogRepository; // 의존성 주입 DB와 통신 생성자 자동생성 애너테이션 덕분에 안전하게 주입 가능
+
+주요 메서드
+1. save(AddArticleRequest request) DTO를 엔티티로 변환하여 DB에 저장, 저장된 엔티티 반환
+2. findById(long id) ID로 블로그 글 조회, 존재 하지 않으면(orElseThrow)로 IllegalArgumentException 에러 발생
+3. findAll() 블로그 글 전체 조회
+4. delete(long id) ID로 블로그 글 삭제
+5. update(long id, UpdateArticleRequest request) 글 수정 (@Transactional 트랜잭션) 기존 엔티티 조회 후 수정 메서드 호출
+
+### ![BlogApiController.java](https://github.com/ChyeonJ/blog_example/blob/main/Step.1/BlogApiController.java.png)
 
 
