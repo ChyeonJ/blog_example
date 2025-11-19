@@ -190,4 +190,10 @@ private final BlogRepository blogRepository; // 의존성 주입 DB와 통신 �
    - ResponseEntity : 수정된 Article 엔티티 반환
    - HTTP 상태코드 : 200 ok
 
+---------------------------------------------------------------------------
+
 ## 2. 블로그 화면 구성하기 (Thymeleaf)
+
+타임리프 (Thymeleaf) : 템플릿 엔진 스프링 서버에서 데이터를 받아 우리가 보는 웹(HTML)에 데이터를 넣어 보여주는 도구
+
+ Build.gradle : implementation 'org.springframework.boot:spring-boot-starter-thymeleaf' //타임리프 (Thymeleaf)
