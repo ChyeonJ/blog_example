@@ -32,9 +32,8 @@ public class BlogViewController {
         return "articleList";
     }
 
-    @GetMapping("/articles/{id:\\d+}")
+    @GetMapping("/articles/{id}")
     public  String getArticle(@PathVariable(required = false) Long id, Model model){ //Long은 숫자를 감싸는 객체 Long a = 10L; 가능
-        if (id == null) return "redirect:/articles";
         Article article = blogService.findById(id);
         model.addAttribute("article", new ArticleViewResponse(article));
         return "article";

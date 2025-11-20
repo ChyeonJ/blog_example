@@ -28,8 +28,8 @@ if (modifyButton){
             "Content-Type" : "application/json",
         },
         body: JSON.stringify({
-            title: document.getElementById('title').value
-            content: document.getElementById('content').value
+            title: document.getElementById('title').value;
+            content: document.getElementById('content').value;
         })
      })
      .then(() => {
