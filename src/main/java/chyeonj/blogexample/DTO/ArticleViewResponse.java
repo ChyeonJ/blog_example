@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@NoArgsConstructor (access = AccessLevel.PROTECTED)
+@NoArgsConstructor (access = AccessLevel.PUBLIC)
 @Getter
 public class ArticleViewResponse {
 

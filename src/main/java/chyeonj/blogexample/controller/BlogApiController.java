@@ -55,9 +55,9 @@ public class BlogApiController {
         return ResponseEntity.ok().body(new ArticleResponse(article));
         //Http 200일 때(.ok()), JSON형태로 반환(.body( DTO에 article에서 찾은 정보를 .ArticleResponse(article)))
     }
-    
+
     // 삭제
-    @DeleteMapping("/api/articles/{id}") 
+    @DeleteMapping("/api/articles/{id}")
     public ResponseEntity<Void> deleteArticle(@PathVariable long id){   //<Void> 응답 바디가 없음 리턴값을 반환하지 않아도 될 때 사용
         blogService.delete(id);
         return ResponseEntity.ok().build(); //.bulid() Body에 담아서 반환할게 없을 때 사용 <Void>를 선언 했기에
