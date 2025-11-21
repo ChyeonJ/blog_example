@@ -1,17 +1,16 @@
 package chyeonj.blogexample.DTO;
 
 import chyeonj.blogexample.blogexam.domain.Article;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@NoArgsConstructor (access = AccessLevel.PUBLIC)
+@NoArgsConstructor
 @Getter
 public class ArticleViewResponse {
 
-    private long id;
+    private Long id;
     private String title;
     private String content;
     private LocalDateTime createdAt;
