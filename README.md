@@ -197,3 +197,16 @@ private final BlogRepository blogRepository; // 의존성 주입 DB와 통신 �
 타임리프 (Thymeleaf) : 템플릿 엔진 스프링 서버에서 데이터를 받아 우리가 보는 웹(HTML)에 데이터를 넣어 보여주는 도구
 
  Build.gradle : implementation 'org.springframework.boot:spring-boot-starter-thymeleaf' //타임리프 (Thymeleaf)
+
+타임리프를 사용하기에 앞서 현업에 필요한 기술은 아니라고 판단이 들었다.
+
+하지만 프론트엔드 지식이 많이 부족하기에 
+
+추후에 업그레이드 염두를 두고 코드 작성만하여 CRUD 구현만 진행했다.
+
+---------------------------------------------------------------------------
+
+# 3. 로그인, 로그아웃 구현하기 (spring security)
+
+
+
