@@ -298,3 +298,71 @@ Where email = #{email}
 
 ### ![WebSecurityConfig.java](https://github.com/ChyeonJ/blog_example/blob/main/Step.2/config%2CWebSecurityConfig.png)
 
+- 프로젝트 전체의 스프링 시큐리티 설정을 담당하는 보안 설정 클래스 로그인/로그아웃, 인증이 필요한 페이지, 인증이 필요 없는 페이지 관리
+
+- @Configuration : 스프링 설정 파일이라는 의미
+
+***WebSecurityCustomizer***
+1. /staitc/** 경로는 css,js 이미지 같은 정적 파일 위하는 곳
+2. 정적 리소스는 로그인 여부와 상관없이 접근 가능해야 하므로 스프링 시큐리티 모든 기능을 사용하지 않게함
+
+***SecurityFilterChain***
+1. 인증이 필요 없는 url
+    - /login 로그인 페이지
+    - /signup 회원가입 페이지
+    - /user 회원가입 요청 처리
+    - /.well-known/** - 브라우저가 자동으로 요청하는 특별한 경로(본인은 로그인 후 화이트 라벨 400코드가 지속 발생하여 추가한 코드)
+2. 그외 나머지 요청은 .anyRequest().authenticated() 로그인 해여하만 접근가능
+3. 로그인 설정
+    - .formLogin().loginPage("/login").defaultSuccessUrl("/articles")
+    - 커스텀 로그인 페이지 사용 .loginPage("/login")
+    - 로그인 설공 시 .defaultSuccessUrl("/articles") 이동
+4. 로그아웃 설정
+   - .logout().logoutSuccessUrl("/login").invalidateHttpSession(true)
+   - 로그 아웃 후 .logoutSuccessUrl("/login") 이동
+   - .invalidateHttpSession(true) 세션 완전 삭제
+5. csrf 비활성화 / 개발단계 이기에 False
+    - 개발 중에는 폼 제출 편의를 위해 CSRF 체크 비활성화
+
+***AuthenticationManager***
+1. 로그인 요청 시 사용자의 이메일/비밀번호를 확인하는 관리 객체
+2. 실제 사용자 정보를 가져오는 서비스 : UserDetailService
+3. 비밀번호 암호화 방식 : BCryptPasswordEncoder
+
+-> 이메일 기반 로그인 + 암호화된 비밀번호 검사 수행
+
+***BcryptPasswordEncoder***
+1. 사용자의 비밀번호는 DB에 절대 평문 저장하면 안됨
+2. BCrypt는 스프링 시큐리티에서 권장하는 강력한 암호화 방식
+3. 회원가입 시 비밀번호 암호화, 로구인 시 암호 비교에 사용
+
+### ![AddUserRequest.java](https://github.com/ChyeonJ/blog_example/blob/main/Step.2/AddUserRequest.png)
+
+- 사용자 정보를 담고 있는 객체 생성
+
+### ![UserService.java](https://github.com/ChyeonJ/blog_example/blob/main/Step.2/UserService.png)
+
+- 회원 가입 기능을 담당
+1. save() 메서드 회원가입 화면에서 전달된 요청 DTO(AddUserRequest)를 받아 실제 USer 엔티티로 변환후 DB에 저장
+2. .password(bCryPasswordEncoder.encode(dto.getPassword()))
+ -  비밀번호 암호화 저장 하는 핵심 코드
+
+### ![UserApiController.java](https://github.com/ChyeonJ/blog_example/blob/main/Step.2/UserApiController.png)
+
+- /user로 접속하면 회원가입 메서드를 호출한 후 회원가입이 완료 되면 강제로 /login으로 이동하게 함
+- /logout url(GET) 받아오면 로그아웃 메서드 실행 
+- 현재 인증 된 SecurityContextHolder.getContext().getAuthentication() (권한, 세션 정보등) 가져와서
+- SecurityContextHolder에 저장
+- new SecurityContextLogoutHandler().logout(request, response, authentication); 핸들러를 통해 실질적 로그아웃 코드 실행
+- 세션, 인증정보, 쿠키, 내부 Authentication 객체 null처리 실행
+- 다시 로그인 창으로 이동하게 반환함
+
+### ![UserViewController.java](https://github.com/ChyeonJ/blog_example/blob/main/Step.2/UserViewController.png)
+
+1. /login url 접속 시 login.html 반환
+2. /signup url 접속 시 signup.html 반환
+
+---------------------------------------------------------------------------
+
+# 3-1. JWT로 로그인 로그아웃 구현하기
+
