@@ -219,5 +219,34 @@ private final BlogRepository blogRepository; // 의존성 주입 DB와 통신 �
  
 Build.gradle 의존성 추가
 
+    //스프링 시큐리티
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+
+### ![스프링 시큐리티 필터](https://github.com/ChyeonJ/blog_example/blob/main/Step.2/Filter.png)
+
+- 이미지 출처 : https://lalwr.blogspot.com/2018/06/spring-security.html
+
+SecurityContextPersistenceFilter부터 시작하여 아래로 내려가며 FilterSecurityInterceptor까지 순서대로 필터를 거침
+
+중요한 필터
+1. UsernamePasswordAuthenticationFilter : 아이디와 패스워드가 넘어오면 인증 요청을 위임하는 인증 관리자 역할
+2. FilterSecurityInterceptor : 권한 부여 처리를 위임해 접근 제어 결정을 쉽게 하는 접근 결정 관리자 역할
+
+각 필터의 설명
+
+1. SecurityContextPersistenceFilter : SecurityContext(접근 주체와 인증에 대한 정보를 담고 있는 객체)를 가져오거나 저장하는 역할
+2. LogoutFilter : 설정된 로그아웃 URL로 오는 요청을 확인해 해당 사용자를 로그아웃 처리
+3. ***UsernamePasswordAuthenticationFilter*** : 인증이 성공하면 AuthenticationSuccessHandler를 인증 실패하면 AuthenticationFailureGandler 실행
+4. DefaultLoginPageGeneratingFilter : 사용자가 로그인페이지를 따로 저장하지 않았을 때 기본으로 설정하는 로그인 페이지 필터
+5. BasicAuthenticationFilter : 요청 헤더에 있는 아이디와 패스워드를 파시항해서 인증 요청 인증이 성공하면 AuthenticationSuccessHandler를 인증 실패하면 AuthenticationFailureGandler 실행
+6. RequestCacheAwareFilter : 로그인 성공 후, 관련 있는 캐시 요청이 있는지 확인하고 캐시 요청을 처리 로그인 하지 않았던 페이지를 기억했다가 로그인하면 로그인하지 않은 페이지로 이동
+7. SecurityContextHolderAwareRequestFilter : HttpServeltRequest 정보를 감싸, 필터 체인 상의 다음 필터들에게 부가 정보 제공
+8. AnonymousAuthenticationFilter : 필터가 호출되는 시점까지 인증되지 않았다면 익명 사용자 객체인 AnonymousAuthentication을 만들어 SecurityContext로 삽입
+9. SessionManagementFilter : 인증된 사용자와 관련된 세션 관련 작업을 진행, 세션 변조 방지 전략을 설정하고, 유효하지 않은 세션 삭제, 세션 생성 전략 세우는 등 작업 처리
+10. ExceptionTranslationFilter : 요청을 처리하는 중에 발생할 수 있는 예외를 위임하거나 전달합니다.
+11. ***FilterSecurityInterceptor*** : 이 과정에서는 이미 사용자가 인증되어 유효한 사용자인지 알 수 있음. 인가 관련 설정
 
