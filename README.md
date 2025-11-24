@@ -228,7 +228,7 @@ Build.gradle 의존성 추가
 
 ### ![스프링 시큐리티 필터](https://github.com/ChyeonJ/blog_example/blob/main/Step.2/Filter.png)
 
-- 이미지 출처 : https://lalwr.blogspot.com/2018/06/spring-security.html
+- [이미지 출처](https://lalwr.blogspot.com/2018/06/spring-security.html)
 
 SecurityContextPersistenceFilter부터 시작하여 아래로 내려가며 FilterSecurityInterceptor까지 순서대로 필터를 거침
 
@@ -252,7 +252,7 @@ SecurityContextPersistenceFilter부터 시작하여 아래로 내려가며 Filte
 
 ### ![스프링 시큐리티 폼 로그인](https://github.com/ChyeonJ/blog_example/blob/main/Step.2/%ED%8F%BC%20%EB%A1%9C%EA%B7%B8%EC%9D%B8%20%EC%9D%B8%EC%A6%9D.png)
 
-- 이미지 출처 : https://velog.io/@solchan/Spring-Security-%EC%8A%A4%ED%94%84%EB%A7%81-%EC%8B%9C%ED%81%90%EB%A6%AC%ED%8B%B0-%EA%B8%B0%EB%B3%B8-%EA%B0%9C%EB%85%90%EA%B3%BC-%EC%9D%B8%EC%A6%9DForm-%ED%9D%90%EB%A6%84
+- [이미지 출처](https://velog.io/@solchan/Spring-Security-%EC%8A%A4%ED%94%84%EB%A7%81-%EC%8B%9C%ED%81%90%EB%A6%AC%ED%8B%B0-%EA%B8%B0%EB%B3%B8-%EA%B0%9C%EB%85%90%EA%B3%BC-%EC%9D%B8%EC%A6%9DForm-%ED%9D%90%EB%A6%84)
 
 인증 흐름
 1. 사용자가 폼에 아이디와 패스워드를 입력 ***HTTPServletRequest***에 아이디 비밀번호 정보 전달
