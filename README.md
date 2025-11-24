@@ -75,8 +75,6 @@ id가 1인 블로그 글을 조회하는 API : GET /articles/1
 
 ---------------------------------------------------------------------------
 
-Entity 구성
-
 ### ![Article.java](https://github.com/ChyeonJ/blog_example/blob/main/Step.1/Article.java.png)
 
 @Getter //클래스의 모든 필드에 대한 Getter 메서드를 자동 생성 
@@ -265,4 +263,38 @@ SecurityContextPersistenceFilter부터 시작하여 아래로 내려가며 Filte
 8. 입력 정보와 UserDetails의 정보를 비교해 실제 인증처리
 9. 8 ~ 10 인증 완료 시 ***SecurityContextHolder***에 Authentication을 저장
 10. 인증이 성공하면 ***AuthenticationSuccessHandler***를 인증 실패하면 ***AuthenticationFailureGandler*** 실행
+
+---------------------------------------------------------------------------
+
+### ![User.java](https://github.com/ChyeonJ/blog_example/blob/main/Step.2/User.png)
+
+- User 클래스가 상속한 implements UserDetails는 스프링 시큐리티에서 사용자의 인증 정보를 담아두는 인터페이스
+
+오버라이드 메서드 별 반환 타입 및 설명
+1. getAuthorities : 반환타입 Collection<? extends GrantedAuthority> : 사용자가 가지고 있는 권한의 목록 반환
+    - Collection : List, Set등 여러개의 권한 담기 가능 / <? extends GrantedAuthority> : GrantedAutority를 구현한 어떤 타입이든 가능
+    - 사용자가 가진 권한을 스프링 시큐리티에 알려주는 역할
+2. getUserName : 반환타입 String : 사용자를 식별할 수 있는 사용자 이름 반환 / 사용자는 unique해야 하기에 unique한 이메일 반환
+3. getPassword : 반환타임 String : 사용자 비밀번호를 반환 / 비밀번호는 암호화해서 저장
+4. isAccountNotExpired : 반환타입 Boolean : 계정이 만료 되었는지 확인 / 만료 하지 않았다면 true(1) 반환
+5. isAccountNonLocked : 반환타입 Boolean : 계정이 잠금 되었는지 확인 / 잠금 되지 않으면 true(1) 반환
+6. isCredentialsNonExpired() : 반환타입 Boolean : 비밀번호 만료 확인 / 만료 하지 않았다면 true(1) 반환
+7. isEnabled() : 반환타입 Boolean : 계정이 사용 가능한지 확인하는 메서드 / 사용 가능하다면 true(1) 반환
+
+### ![UserRepository.java](https://github.com/ChyeonJ/blog_example/blob/main/Step.2/UserRepository.png)
+
+- 이메일로 사용자 식별이 가능한 상태, 사용자 정보를 가져오기 위해서 스프링 시큐리티가 이메일을 전달 받아야함
+- 스프링 데이터(JPA)는 규칙에 맞춰 선언하면 쿼리를 생성해줌 
+***findByEmail()***
+
+select * FROM users
+
+Where email = #{email}
+
+### ![UserDetailService.java](https://github.com/ChyeonJ/blog_example/blob/main/Step.2/UserDetailService.png)
+
+- 로그인을 진행할 때 사용자 정보를 가져오는 코드
+- loadUserByUsername()메서드를 오버라이딩하여 사용자 정보를 가져오는 로직 완성
+
+### ![WebSecurityConfig.java](https://github.com/ChyeonJ/blog_example/blob/main/Step.2/config%2CWebSecurityConfig.png)
 
