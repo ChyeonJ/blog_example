@@ -33,6 +33,7 @@ public class WebSecurityConfig {
         return http
                 .authorizeRequests() //인증, 인가 설정
                 .requestMatchers("/login", "/signup", "/user").permitAll()
+                .requestMatchers("/.well-known/**").permitAll() // 화이트 라벨 방지 코드
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()// 폼 기반 로그인 설정
