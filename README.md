@@ -250,3 +250,19 @@ SecurityContextPersistenceFilter부터 시작하여 아래로 내려가며 Filte
 10. ExceptionTranslationFilter : 요청을 처리하는 중에 발생할 수 있는 예외를 위임하거나 전달합니다.
 11. ***FilterSecurityInterceptor*** : 이 과정에서는 이미 사용자가 인증되어 유효한 사용자인지 알 수 있음. 인가 관련 설정
 
+### ![스프링 시큐리티 폼 로그인](https://github.com/ChyeonJ/blog_example/blob/main/Step.2/%ED%8F%BC%20%EB%A1%9C%EA%B7%B8%EC%9D%B8%20%EC%9D%B8%EC%A6%9D.png)
+
+- 이미지 출처 : https://velog.io/@solchan/Spring-Security-%EC%8A%A4%ED%94%84%EB%A7%81-%EC%8B%9C%ED%81%90%EB%A6%AC%ED%8B%B0-%EA%B8%B0%EB%B3%B8-%EA%B0%9C%EB%85%90%EA%B3%BC-%EC%9D%B8%EC%A6%9DForm-%ED%9D%90%EB%A6%84
+
+인증 흐름
+1. 사용자가 폼에 아이디와 패스워드를 입력 ***HTTPServletRequest***에 아이디 비밀번호 정보 전달
+2. 이때 ***AuthenticationFilter***가 넘어온 아이디와 비밀번호의 유효성 검사
+3. 유효성 검사 종료 후 ***UsernamePassswordAuthenticationToken***을 만들어 넘김
+4. 전달받은 인증용 객체 ***UsernamePassswordAuthenticationToken***을 ***AuthenticationManager***에 전송
+5. ***UsernamePassswordAuthenticationToken***을 ***AuthenticationProvider***에 전송
+6. 사용자 아이디를 UserDetailService에 보내고 사용자 아이디로 찾은 사용자 정보를 UserDetails객체로 만들어 ***AuthenticationProvider*** 전달
+7. DB에 있는 사용자 정보 가져옴
+8. 입력 정보와 UserDetails의 정보를 비교해 실제 인증처리
+9. 8 ~ 10 인증 완료 시 ***SecurityContextHolder***에 Authentication을 저장
+10. 인증이 성공하면 ***AuthenticationSuccessHandler***를 인증 실패하면 ***AuthenticationFailureGandler*** 실행
+
