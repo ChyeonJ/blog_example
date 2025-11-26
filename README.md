@@ -373,7 +373,7 @@ Where email = #{email}
  2. 여러 요청과 함께 토큰을 신청
  3. 서버는 토큰만 보고 유효한 사용자인지 검증
 
-![토큰 기반 인증]()
+![토큰 기반 인증](https://github.com/ChyeonJ/blog_example/blob/main/Step.3/JWT%20%ED%86%A0%ED%81%B0%20%EC%9D%B8%EC%A6%9D%20%EA%B8%B0%EB%B0%98.png)
 
 [이미지 출처](https://hudi.blog/session-based-auth-vs-token-based-auth/)
 
@@ -445,7 +445,7 @@ ex)
 2. 리프레시 토큰은 엑세스 토큰과 별개로 리프래시 토큰을 발급하여 엑세스 토큰이 만료 되었을 때 새로운 액세스 토큰을 발급하기 위해 사용한다.
 3. 엑세스 토큰의 유효기간을 짧게 설정하고 리프레시 토큰의 유효기간을 길게 설정하여, 엑세스 토큰을 탈취해도 몇분뒤에 사용할 수 없게 만드는 방법으로 보안을 지키는 것이다
 
-![Access 토큰 만료 되었을 때 로직]()
+![Access 토큰 만료 되었을 때 로직](https://github.com/ChyeonJ/blog_example/blob/main/Step.3/JWT%20%EB%A6%AC%ED%94%84%EB%A0%88%EC%89%AC%20%ED%86%A0%ED%81%B0.jpg)
 
 [이미지 출처](https://jandari91.github.io/posts/JWT_Refresh/)
 
