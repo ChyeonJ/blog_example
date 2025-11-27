@@ -462,6 +462,23 @@ ex)
 9. 리프레시 토큰 조회 & 유효성 검사 : DB에 저장해둔 리프레시 토큰이 유효한지 확인한 후 저장해둔 리프레시 토큰과 같은지 검증
 10. 새로운 엑세스 토큰 응답 : 유효한 리프레시 토큰이라면 새로운 엑세스 토큰을 생성한 뒤 응답
 
+### build.gradle 의존성 추가
+
+    // JWT
+    testAnnotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.projectlombok:lombok'
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    implementation 'javax.xml.bind:jaxb-api:2.3.1'
+
+### Application.yml
+
+    // 이슈 발급자(issuer), 비밀키(secret_key) 필수 설정
+    jwt:
+    issuer: chyeonj@gamail.com
+    secret_key: study-springboot
+
+
+
 
 
 
