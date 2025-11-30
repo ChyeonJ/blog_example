@@ -25,7 +25,7 @@ public class UserService {
     //JWT 메서드 추가
     public User findById(Long userId){
         return userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("Unexpected user"));
+                .orElseThrow(() -> new IllegalArgumentException("유저 없음"));
     }
 
 }
