@@ -6,8 +6,6 @@ import lombok.Generated;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.concurrent.BlockingDeque;
-
 @NoArgsConstructor (access = AccessLevel.PROTECTED)
 @Getter
 @Entity
