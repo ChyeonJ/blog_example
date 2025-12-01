@@ -28,17 +28,6 @@ public class UserService {
                 .orElseThrow(() -> new IllegalArgumentException("유저 없음"));
     }
 
-    //이메일로 유저 조회 추가
-    public User findByEmail(String email){
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("유저 없음"));
-    }
-
-    //비밀번호 체크 추가
-    public boolean checkPassword(User user, String rawPassword){
-        return bCryptPasswordEncoder.matches(rawPassword, user.getPassword());
-    }
-
 
 
 
