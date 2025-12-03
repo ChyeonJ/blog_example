@@ -1,5 +1,6 @@
-package chyeonj.blogexample.config.jwt;
+package config.jwt;
 
+import chyeonj.blogexample.config.jwt.JwtProperties;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -16,16 +17,20 @@ import static java.util.Collections.emptyMap;
 public class JwtFactory {
 
     private String subject = "test@email.com";
+
     private Date issuedAt = new Date();
+
     private Date expiration = new Date(new Date().getTime() + Duration.ofDays(14).toMillis());
-    private Map<String, Object> clamis = emptyMap();
+
+    private Map<String, Object> claims = emptyMap();
 
     @Builder
-    public JwtFactory(String subject, Date issuedAt, Date expriation, Map<String, Object> clamis){
+    public JwtFactory(String subject, Date issuedAt, Date expiration,
+                      Map<String, Object> claims) {
         this.subject = subject != null ? subject : this.subject;
         this.issuedAt = issuedAt != null ? issuedAt : this.issuedAt;
-        this.expiration = expriation != null ? expriation : this.issuedAt;
-        this.clamis = clamis != null ? clamis : this.clamis;
+        this.expiration = expiration != null ? expiration : this.expiration;
+        this.claims = claims != null ? claims : this.claims;
     }
 
     public static JwtFactory withDefaultValues() {
@@ -39,9 +44,8 @@ public class JwtFactory {
                 .setIssuer(jwtProperties.getIssuer())
                 .setIssuedAt(issuedAt)
                 .setExpiration(expiration)
-                .addClaims(clamis)
+                .addClaims(claims)
                 .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
                 .compact();
     }
-
 }
