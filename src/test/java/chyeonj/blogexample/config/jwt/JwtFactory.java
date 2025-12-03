@@ -1,6 +1,5 @@
-package config.jwt;
+package chyeonj.blogexample.config.jwt;
 
-import chyeonj.blogexample.config.jwt.JwtProperties;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

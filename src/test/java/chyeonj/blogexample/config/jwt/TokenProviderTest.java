@@ -1,12 +1,11 @@
-package config.jwt;
+package chyeonj.blogexample.config.jwt;
 
 import chyeonj.blogexample.blogexam.domain.User;
-import chyeonj.blogexample.config.jwt.JwtProperties;
-import chyeonj.blogexample.config.jwt.TokenProvider;
 import chyeonj.blogexample.repository.UserRepository;
 import io.jsonwebtoken.Jwts;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.Authentication;
@@ -32,7 +31,9 @@ class TokenProviderTest {
 
     @DisplayName("generateToken(): 유저 정보와 만료 기간을 전달해 토큰을 만들 수 있다.")
     @Test
-    void generateToken() {
+    void generateToken(TestInfo testInfo) {
+        System.out.println(">>> 실행 중인 테스트: " + testInfo.getDisplayName());
+
         // given
         User testUser = userRepository.save(User.builder()
                 .email("user@gmail.com")
@@ -54,7 +55,9 @@ class TokenProviderTest {
 
     @DisplayName("validToken(): 만료된 토큰인 경우에 유효성 검증에 실패한다.")
     @Test
-    void validToken_invalidToken() {
+    void validToken_invalidToken(TestInfo testInfo) {
+        System.out.println(">>> 실행 중인 테스트: " + testInfo.getDisplayName());
+
         // given
         String token = JwtFactory.builder()
                 .expiration(new Date(new Date().getTime() - Duration.ofDays(7).toMillis()))
@@ -71,7 +74,9 @@ class TokenProviderTest {
 
     @DisplayName("validToken(): 유효한 토큰인 경우에 유효성 검증에 성공한다.")
     @Test
-    void validToken_validToken() {
+    void validToken_validToken(TestInfo testInfo) {
+        System.out.println(">>> 실행 중인 테스트: " + testInfo.getDisplayName());
+
         // given
         String token = JwtFactory.withDefaultValues()
                 .createToken(jwtProperties);
@@ -86,9 +91,11 @@ class TokenProviderTest {
 
     @DisplayName("getAuthentication(): 토큰 기반으로 인증정보를 가져올 수 있다.")
     @Test
-    void getAuthentication() {
+    void getAuthentication(TestInfo testInfo) {
+        System.out.println(">>> 실행 중인 테스트: " + testInfo.getDisplayName());
+
         // given
-        String userEmail = "user@email.com";
+        String userEmail = "test@email.com";
         String token = JwtFactory.builder()
                 .subject(userEmail)
                 .build()
@@ -103,7 +110,9 @@ class TokenProviderTest {
 
     @DisplayName("getUserId(): 토큰으로 유저 ID를 가져올 수 있다.")
     @Test
-    void getUserId() {
+    void getUserId(TestInfo testInfo) {
+        System.out.println(">>> 실행 중인 테스트: " + testInfo.getDisplayName());
+
         // given
         Long userId = 1L;
         String token = JwtFactory.builder()
