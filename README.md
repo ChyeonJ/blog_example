@@ -518,9 +518,96 @@ ex)
 
 ### ![JWTFactory_testCode](https://github.com/ChyeonJ/blog_example/blob/main/Step.3/test.JwtFactory.png)
 
+- JWT 토큰 서비스를 테스트하는 모킹(가짜 객체)용 객체
+
 ### ![JWTProvider_testCode](https://github.com/ChyeonJ/blog_example/blob/main/Step.3/test.TokenProviderTest.png)
+
+- 토큰 실제 동작 @DisplayName 애너테이션으로 확인
 
 ### ![testCode_Result](https://github.com/ChyeonJ/blog_example/blob/main/Step.3/Test____1.png)
 
+- 결과
+
+### ![RefreshToken](https://github.com/ChyeonJ/blog_example/blob/main/Step.3/RefreshToken.png)
+
+- 사용자별 RefreshToken 저장 관리하는 JPA 엔티티
+
+### ![RefreshTokenRepository](https://github.com/ChyeonJ/blog_example/blob/main/Step.3/RefreshTokenRepository.png)
+
+- 사용자 ID RefreshToken 조회하거나
+- 전달받은 Refresh Token이 서버에 저장된 값인지 확인하고
+- 필요한 경우 DB에 저장/갱신하는 역할
+
+### ![TokenAuthenticationFilter](https://github.com/ChyeonJ/blog_example/blob/main/Step.3/TokenAuthenticationFilter.png)
+
+1. Authorization 헤더 추출
+- String authorizationHeader = request.getHeader(HEADER_AUTHORIZATION);
+- 클라이언트가 보낸 JWT Access Token을 가져온다.
+
+2. Bearer 접두사 제거 -> 실제 JWT 토큰 추출
+- String token = getAccessToken(authorizationHeader);
+- Bearer로 시작하지 않으면 null
+- Bearer <token>이라면 <token> 부문만 잘라낸다
+
+3. 토큰 유효성 확인
+- if (tokenProvider.validToken(token))
+- 서명 검증, 만료 여부등을 검사
+- 유효하지 않으면 인증처리 없이 다음 필터로 진행
+
+4. 인증 정보 생성 후 SecurityContext에 저장
+- Authentication authentication = tokenProvider.getAuthentication(token);
+- SecurityContextHolder.getContext().setAuthentication(authentication);
+- TokenProvider에서 사용자 정보(subject), 권한 등을 포함한 Authentication 객체 생성
+- SecurityContextHolder에 저장하여 스프링이 인증된 사용자로 인식
+
+5. 필터 체인 계속 진행
+- filterChain.doFilter(request, response);
+
+요청 -> AccessToken 추출 -> 검증 -> 인증 객체 생성 -> SecurityContext 저장
+
+핵심 인증 정차를 수행하는 필터
+
+Controller에 도달하기 전 단계에서 인증이 완료되어, 보안적으로 중요한 요청 흐름의 첫 관문 역할을 한다.
+
+### ![UserService](https://github.com/ChyeonJ/blog_example/blob/main/Step.3/UserService.png)
+- UserService 전달 받은 유저 ID로 유저를 검색해서 전달하는 findById 메서드 추가 구성
+
+### ![RefreshTokenService](https://github.com/ChyeonJ/blog_example/blob/main/Step.3/RefreshTokenService.png)
+- findByRefreshToken(String refreshToken)
+- 클라이언트가 제출한 RefreshToken으로 DB 조회
+- 존재하지 않는 경우 -> IllegalArgumentException("Unexpected token") 발생
+- -> 잘못된 Refresh Token 또는 조작된 토큰으로 판단
+- 존재하는 경우 -> refreshToken 엔티티 반환
+
+### ![TokenService](https://github.com/ChyeonJ/blog_example/blob/main/Step.3/TokenService.png)
+1. Refresh Token 유효성 검증
+- if(!tokenProvider.validToken(refreshToken)) throw new IllegalArgumentException("토큰 오류");
+- 서명 검증 / 만료 여부 확인
+- 조작 되었거나 만료된 RefreshToken이라면 재발급 거부
+
+2. DB에서 Refresh Token 조회
+- Long userId = refreshTokenService.findByRefreshToken(refreshToken).getUserId();
+- 서버가 저장한 Refresh Token 비교
+- 저장되지 않으면 예외처리 발생
+
+3. 사용자 조회
+- User user = userService.findById(userId);
+
+4. 새 AccessToken 발급
+- return tokenProvider.generateToken(user, Duration.ofHours(2));
+- Access Token만료시간: 2시간
+- 사용자 정보 기반으로 다시 JWT 생성
+
+### ![CreateAccessTokenRequest](https://github.com/ChyeonJ/blog_example/blob/main/Step.3/CreateAccessTokenRequest.png)
+### ![CreateAccessTokenResponse](https://github.com/ChyeonJ/blog_example/blob/main/Step.3/CreateAccessTokenResponse.png)
+
+dto 패키지에 토큰 생성 요청 및 응답 담당
+
+### ![TokenApiController](https://github.com/ChyeonJ/blog_example/blob/main/Step.3/TokenApiController.png)
+- 만료된 AccessToken을 재발급 받기 위한 API의 진입점
+- Refresh Token만으로 새 AccessToken을 발급
+- 보안적으로 안전한 인증 연장 매커니즘을 제공
+
+### ![TokenApiControllerTrst](https://github.com/ChyeonJ/blog_example/blob/main/Step.3/TokenApiControllerTest.png)
 
 
