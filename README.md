@@ -476,10 +476,51 @@ ex)
     jwt:
     issuer: chyeonj@gamail.com
     secret_key: study-springboot
+- JWT 토큰 발급을 위해 이슈 발급자 : issuer, 비밀키 Secret_key를 필수로 설정
 
+### ![Config/jwt/jwtProperties](https://github.com/ChyeonJ/blog_example/blob/main/Step.3/jwt.jwtProperties.png)
 
-dd
+- application.yml에 정의한 jwt의 모든 값을 스프링 빈에 자동으로 매핑하기 위한 설정 클래스
 
+- @ConfigurationProperties("jwt") : jwt로 시작하는 프로퍼티 값을 해당 클래스에 바인딩(연결)
+
+### ![TokenProvider](https://github.com/ChyeonJ/blog_example/blob/main/Step.3/jwt.tokenProvider.png)
+
+- 토큰을 생성하고 올바른 토큰인지 유효성 검사를 하고 토큰에서 필요한 정보를 가져오는 클래스
+
+1. generateToken(User user, Duration expiredAt) : 하기 내용들을 포함한 JWT를 생성해 반환
+- 사용자 정보와 만료 시간을 입력받아 JWT 토큰을 생성
+- 만료시간 exp
+- 발급자 issuer
+- 사용자 식별 정보 subject=email
+- 사용자 ID claim "id"
+- 
+2. makeToken(Date expiry, User user) : 실제 JWT 빌더를 통해 토큰을 구성
+- Header.typ : JWT 타입
+- iss : 발급자
+- iat : 발급 시각
+- exp : 만료시간
+- sub : 유저 이메일
+- id : 유저 ID (claim)
+- signature : HS256 + secretKey
+
+3. validToken(String token)
+- 토큰 서명 검증 및 구조확인 수행
+- 서명이 올바르고, 만료시간이 지나지 않았다면 true
+- 그 외에 예외 발생 시 false
+
+4. getAuthentication(String token)
+- 토큰에서 Claims를 꺼내고, 이를 기반으로 Security의 UsernamePasswordAuthenticationToken 객체 생성
+- SecurityContext 저장될 실제 Authentication 객체가 만들어짐
+
+5. getUserId(String token)
+- 토큰을 파싱해서 실제 Claims 정보를 반환
+
+### ![JWTFactory_testCode](https://github.com/ChyeonJ/blog_example/blob/main/Step.3/test.JwtFactory.png)
+
+### ![JWTProvider_testCode](https://github.com/ChyeonJ/blog_example/blob/main/Step.3/test.TokenProviderTest.png)
+
+### ![testCode_Result](https://github.com/ChyeonJ/blog_example/blob/main/Step.3/Test____1.png)
 
 
 
