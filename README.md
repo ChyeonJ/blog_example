@@ -608,6 +608,8 @@ dto 패키지에 토큰 생성 요청 및 응답 담당
 - Refresh Token만으로 새 AccessToken을 발급
 - 보안적으로 안전한 인증 연장 매커니즘을 제공
 
-### ![TokenApiControllerTrst](https://github.com/ChyeonJ/blog_example/blob/main/Step.3/TokenApiControllerTest.png)
+### ![TokenApiControllerTest](https://github.com/ChyeonJ/blog_example/blob/main/Step.3/TokenApiControllerTest.png)
+- 토큰 발급 컨트롤러 테스트
 
+### ![TestResult](https://github.com/ChyeonJ/blog_example/blob/main/Step.3/TokenApiControllerTesT_Reuslt.png)
 
