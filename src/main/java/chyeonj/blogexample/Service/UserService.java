@@ -27,9 +27,4 @@ public class UserService {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("유저 없음"));
     }
-
-
-
-
-
 }
