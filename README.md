@@ -7,8 +7,6 @@
 
 - 개발 언어 : JAVA, Spring, Thymeleaf
 
-- AWS
-
 # 버전
 
 - jdk SE 17.02
@@ -21,8 +19,7 @@
 1. 블로그 API 구현 CRUD (RESTFul API)
 2. 블로그 화면 구성하기 (Thymeleaf)
 3. 로그인, 로그아웃, 회원가입 구현
-   - Spring Security, JWT, OAuth2
-4. AWS 배포 (일래스틱 빈스토크)
+   - Spring Security, JWT, OAuth2(이론)
 
 ---------------------------------------------------------------------------
 
